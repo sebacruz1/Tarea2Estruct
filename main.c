@@ -8,6 +8,7 @@ typedef struct{
     char nombre[20];
     int puntos; 
     char **items;
+    int cantItems;
 } Jugador;
 
 int is_equal_string(void * key1, void * key2) 
@@ -36,29 +37,39 @@ Jugador *crearJugador()
     scanf("%d", &puntos);
     j->puntos = puntos;
 
-    printf("Ingrese los items del jugador: ");
+    printf("Ingrese los items del jugador (para finalizar dejar vacio): ");
 
-    char items[30];
+    char item[30];
     int i = 0;
+    j->items = (char**)malloc(sizeof(char*));
+    j->cantItems = 0;
 
-    while (1)
+    while(1)
     {
-        j->items = (char**)realloc(j->items, (i+1)*sizeof(char*));
-        j->items[i] = (char*)malloc(30*sizeof(char));
+        fflush(stdin);
+        fgets(item, 30, stdin);
+        item[strcspn(item, "\r\n")] = 0;
 
-        scanf("%s[^\n]", j->items[i]);
-        if (j->items[i][0] != '\0')
+        if (strlen(item) == 0)
         {
-            free(j->items[i]);
+            printf("Finalizando ingreso de items...\n");
             break;
         }
         
+        j->cantItems++;
+        j->items[i] = (char*)malloc(sizeof(char) * 30);
+        strcpy(j->items[i], item);
+
         i++;
+        
+        j->items = (char**)realloc(j->items, (i+1) * sizeof(char*));
         
     }
 
+    j->items[i] = NULL; 
+
     return j;
-}
+} 
 
 int main()
 {
