@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "Map.h"
 #include "Map.c"
 
@@ -67,7 +68,7 @@ Jugador *crearJugador()
     }
 
     j->items[i] = NULL; 
-
+    sleep(2);
     return j;
 } 
 
@@ -106,6 +107,15 @@ int main()
             insertMap(jugadoresPorNombre, &j->puntos, j);
             insertMap(jugadoresPorNombre, j->items, j);
             break;
+        case 2:
+            printf("Ingrese el nombre del jugador: ");
+            char nombre[20];
+            scanf("%s", nombre);
+            mostrarJugador(nombre, jugadoresPorNombre);
+
+            break;
+        
+
 
         default:
             printf("Opción inválida\n");
