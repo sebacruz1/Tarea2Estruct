@@ -72,6 +72,37 @@ Jugador *crearJugador()
     return j;
 } 
 
+void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
+{
+    Jugador *j = searchMap(jugadoresPorNombre, nombre);
+
+    if(j == NULL)
+    {
+        printf("No se encontro el jugador\n");
+        return;
+    }
+
+    printf("Nombre: %s\n", j->nombre);
+    printf("Puntos: %d\n", j->puntos);
+    printf("Items:\n");
+
+    for(int k = 0 ; k < j->cantItems ; k++)
+    {
+        printf("%s", j -> items[k]);
+
+        if(j -> items[k] == NULL)
+        {
+            printf("\n");
+            break;
+        }
+    }
+
+    sleep(2);
+
+
+
+}
+
 int main()
 {
     int opcion = 0; 
@@ -82,7 +113,7 @@ int main()
 
     do 
     {
-        printf("Seleccione una opción:\n"); 
+        printf("Seleccione una opcion:\n"); 
         printf("1. Crear Perfil De Jugador\n");
         printf("2. Mostrar Perfil De Jugador\n");
         printf("3. Agregar Ítem A Jugador\n");
@@ -118,7 +149,7 @@ int main()
 
 
         default:
-            printf("Opción inválida\n");
+            printf("Opcion inválida\n");
             break;
         }
 
