@@ -101,6 +101,42 @@ void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
 
 }
 
+void ingresarItem(char *nombre, Map *jugadoresPorNombre)
+{
+    Jugador *j = searchMap(jugadoresPorNombre, nombre);
+
+    if(j == NULL)
+    {
+        printf("No se encontro el jugador\n");
+        return;
+    }
+
+    printf("Ingrese el item que desea agregar: ");
+    char item[30];
+
+    while(1)
+    {
+        fflush(stdin);
+        fgets(item, 30, stdin);
+        item[strcspn(item, "\r\n")] = 0;
+
+        if (strlen(item) == 0)
+        {
+            printf("Finalizando ingreso de items...\n");
+            break;
+        }
+
+        j->items = (char**)realloc(j->items, (j->cantItems + 1) * sizeof(char*));
+        j->items[j->cantItems] = (char*)malloc(sizeof(char) * 30);
+        strcpy(j->items[j->cantItems], item);
+        j->cantItems++;
+
+    }
+    
+    sleep(2);
+
+}
+
 void AgregarPuntos(char *nombre, Map *jugadoresPorNombre)
 {
     Jugador *j = searchMap(jugadoresPorNombre, nombre);
@@ -133,10 +169,10 @@ int main()
         printf("Seleccione una opcion:\n"); 
         printf("1. Crear Perfil De Jugador\n");
         printf("2. Mostrar Perfil De Jugador\n");
-        printf("3. Agregar Ítem A Jugador\n");
+        printf("3. Agregar Item A Jugador\n");
         printf("4. Eliminar Item De Jugador\n");
         printf("5. Agregar Puntos De Habilidad A Jugador\n");
-        printf("6. Deshacer Última Acción De Jugador\n");
+        printf("6. Deshacer Ultima Accion De Jugador\n");
         printf("7. Exportar Datos De Jugador a archivo .csv\n");
         printf("8. Importar Datos De Jugador desde archivo .csv\n");
         printf("0. Salir\n");
@@ -156,12 +192,18 @@ int main()
             insertMap(jugadoresPorNombre, j->items, j);
             break;
         case 2:
+        	printf("\n");
             printf("Ingrese el nombre del jugador: ");
             char nombre[20];
             scanf("%s", nombre);
             mostrarJugador(nombre, jugadoresPorNombre);
-            break;
-        
+             break;
+        case 3:
+        	printf("\n");
+        	printf("Ingrese el nombre del jugador: ");
+            scanf("%s", nombre);
+        	ingresarItem(nombre, jugadoresPorNombre);
+        	break;
         case 5:
         	printf("\n");
         	printf("Ingrese el nombre del jugador: ");
