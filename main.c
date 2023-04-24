@@ -101,41 +101,6 @@ void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
 
 }
 
-void ingresarItem(char *nombre, Map *jugadoresPorNombre)
-{
-    Jugador *j = searchMap(jugadoresPorNombre, nombre);
-
-    if(j == NULL)
-    {
-        printf("No se encontro el jugador\n");
-        return;
-    }
-
-    printf("Ingrese el item que desea agregar: ");
-    char item[30];
-
-    while(1)
-    {
-        fflush(stdin);
-        fgets(item, 30, stdin);
-        item[strcspn(item, "\r\n")] = 0;
-
-        if (strlen(item) == 0)
-        {
-            printf("Finalizando ingreso de items...\n");
-            break;
-        }
-
-        j->items = (char*)realloc(j->items, (j->cantItems + 1) * sizeof(char));
-        j->items[j->cantItems] = (char*)malloc(sizeof(char) * 30);
-        strcpy(j->items[j->cantItems], item);
-        j->cantItems++;
-
-    }
-    
-    sleep(2);
-
-}
 
 void ingresarItem(char *nombre, Map *jugadoresPorNombre)
 {
