@@ -99,8 +99,25 @@ void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
 
     sleep(2);
 
+}
 
+void AgregarPuntos(char *nombre, Map *jugadoresPorNombre)
+{
+    Jugador *j = searchMap(jugadoresPorNombre, nombre);
 
+    if(j == NULL)
+    {
+        printf("No se encontro el jugador\n");
+        return;
+    }
+
+    printf("Ingrese los puntos que desea agregar: ");
+    int puntos;
+
+    scanf("%d", &puntos);
+    
+    j->puntos += puntos;
+    
 }
 
 int main()
@@ -143,8 +160,14 @@ int main()
             char nombre[20];
             scanf("%s", nombre);
             mostrarJugador(nombre, jugadoresPorNombre);
-
             break;
+        
+        case 5:
+        	printf("\n");
+        	printf("Ingrese el nombre del jugador: ");
+            scanf("%s", nombre);
+        	AgregarPuntos(nombre, jugadoresPorNombre);
+        	break;
         
 
 
