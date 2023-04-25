@@ -127,7 +127,7 @@ void ingresarItem(char *nombre, Map *jugadoresPorNombre)
             break;
         }
 
-        j->items = (char*)realloc(j->items, (j->cantItems + 1) * sizeof(char));
+        j->items = (char**)realloc(j->items, (j->cantItems + 1) * sizeof(char));
         j->items[j->cantItems] = (char*)malloc(sizeof(char) * 30);
         strcpy(j->items[j->cantItems], item);
         j->cantItems++;
