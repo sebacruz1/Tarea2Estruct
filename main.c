@@ -88,7 +88,7 @@ void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
 
     for(int k = 0 ; k < j->cantItems ; k++)
     {
-        printf("%s", j -> items[k]);
+        printf("%s ", j -> items[k]);
 
         if(j -> items[k] == NULL)
         {
@@ -100,7 +100,6 @@ void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
     sleep(2);
 
 }
-
 
 void ingresarItem(char *nombre, Map *jugadoresPorNombre)
 {
@@ -137,6 +136,42 @@ void ingresarItem(char *nombre, Map *jugadoresPorNombre)
     sleep(2);
 }
 
+void eliminarItem(char *nombre, Map *jugadoresPorNombre)
+{
+    Jugador *j = searchMap(jugadoresPorNombre, nombre);
+
+    if(j == NULL)
+    {
+        printf("No se encontro el jugador\n");
+        return;
+    }
+    printf("Ingrese el item que desea eliminar: ");
+    char item[30];
+
+    fflush(stdin);
+    fgets(item, 30, stdin);
+    item[strcspn(item, "\r\n")] = 0;
+
+    for(int k = 0 ; k < j->cantItems ; k++)
+    {
+        if(strcmp(j->items[k], item) == 0)
+        {
+            free(j->items[k]);
+
+            j->items[k] = NULL;
+
+            printf("Item eliminado\n");
+            
+            break;
+        }
+        printf("No se encontro el item\n")
+
+    }
+    sleep(2);
+    return;
+
+}
+
 void AgregarPuntos(char *nombre, Map *jugadoresPorNombre)
 {
     Jugador *j = searchMap(jugadoresPorNombre, nombre);
@@ -169,10 +204,10 @@ int main()
         printf("Seleccione una opcion:\n"); 
         printf("1. Crear Perfil De Jugador\n");
         printf("2. Mostrar Perfil De Jugador\n");
-        printf("3. Agregar Ítem A Jugador\n");
+        printf("3. Agregar Item A Jugador\n");
         printf("4. Eliminar Item De Jugador\n");
         printf("5. Agregar Puntos De Habilidad A Jugador\n");
-        printf("6. Deshacer Última Acción De Jugador\n");
+        printf("6. Deshacer Ultima Accion De Jugador\n");
         printf("7. Exportar Datos De Jugador a archivo .csv\n");
         printf("8. Importar Datos De Jugador desde archivo .csv\n");
         printf("0. Salir\n");
@@ -203,6 +238,12 @@ int main()
             scanf("%s", nombre);
         	ingresarItem(nombre, jugadoresPorNombre);
         	break;
+        case 4:
+            printf("\n");
+        	printf("Ingrese el nombre del jugador: ");
+            scanf("%s", nombre);
+        	eliminarItem(nombre, jugadoresPorNombre);
+        	break;
         case 5:
         	printf("\n");
         	printf("Ingrese el nombre del jugador: ");
@@ -213,7 +254,7 @@ int main()
 
 
         default:
-            printf("Opcion inválida\n");
+            printf("Opcion invalida\n");
             break;
         }
 
