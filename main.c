@@ -172,7 +172,7 @@ void eliminarItem(char *nombre, Map *jugadoresPorNombre)
 
 }
 
-void AgregarPuntos(char *nombre, Map *jugadoresPorNombre)
+void agregarPuntos(char *nombre, Map *jugadoresPorNombre)
 {
     Jugador *j = searchMap(jugadoresPorNombre, nombre);
 
@@ -248,11 +248,9 @@ int main()
         	printf("\n");
         	printf("Ingrese el nombre del jugador: ");
             scanf("%s", nombre);
-        	AgregarPuntos(nombre, jugadoresPorNombre);
+        	agregarPuntos(nombre, jugadoresPorNombre);
         	break;
         
-
-
         default:
             printf("Opcion invalida\n");
             break;
