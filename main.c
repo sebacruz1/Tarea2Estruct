@@ -26,6 +26,27 @@ int lower_than_string(void * key1, void * key2) {
     return 0;
 }
 
+Jugador *copiarJugador(Jugador *j)
+{
+    Jugador *nuevoJugador = (Jugador*)malloc(sizeof(Jugador));
+
+    strcpy(nuevoJugador->nombre, j->nombre);
+    nuevoJugador->puntos = j->puntos;
+    nuevoJugador->cantItems = j->cantItems;
+    nuevoJugador->items = (char**)malloc(sizeof(char*) * (nuevoJugador->cantItems + 1));
+
+    for(int i = 0; i < nuevoJugador->cantItems; i++) {
+        nuevoJugador->items[i] = (char*)malloc(sizeof(char) * strlen(j->items[i]) + 1);
+        strcpy(nuevoJugador->items[i], j->items[i]);
+    }
+
+    nuevoJugador->items[nuevoJugador->cantItems] = NULL;
+    nuevoJugador->funcionesAnt = j->funcionesAnt;
+    nuevoJugador->funcionesAnteriores = stack_create();
+
+    return nuevoJugador;
+}
+
 Jugador *crearJugador()
 {
     char nombre[20];
@@ -120,7 +141,9 @@ void ingresarItem(char *nombre, Map *jugadoresPorNombre)
     printf("Ingrese el item que desea agregar: ");
     char item[30];
 
-    stack_push(j->funcionesAnteriores, j);
+    Jugador *jAnt = copiarJugador(j);
+
+    stack_push(j->funcionesAnteriores, jAnt);
     j->funcionesAnt++;
 
     fflush(stdin);
@@ -153,7 +176,9 @@ void eliminarItem(char *nombre, Map *jugadoresPorNombre)
     printf("Ingrese el item que desea eliminar: ");
     char item[30];
 
-    stack_push(j->funcionesAnteriores, j);
+    Jugador *jAnt = copiarJugador(j);
+
+    stack_push(j->funcionesAnteriores, jAnt);
     j->funcionesAnt++;
 
     fflush(stdin);
@@ -196,7 +221,8 @@ void agregarPuntos(char *nombre, Map *jugadoresPorNombre)
     printf("Ingrese los puntos que desea agregar: ");
     int puntos;
 
-    stack_push(j->funcionesAnteriores, j);
+    Jugador *jAnt = copiarJugador(j);
+    stack_push(j->funcionesAnteriores, jAnt);
     j->funcionesAnt++;
 
     scanf("%d", &puntos);
@@ -223,16 +249,15 @@ void deshacer(char *nombre, Map *jugadoresPorNombre)
         return;
     }
 
-    Jugador *k = malloc(sizeof(Jugador));
-    k = stack_pop(j->funcionesAnteriores);
+    Jugador *k = stack_pop(j->funcionesAnteriores);
     
-
     j->cantItems = k->cantItems;
     j->funcionesAnt = k->funcionesAnt;
     j->items = k->items;
     j->puntos = k->puntos;
 
-
+    j->funcionesAnt--;
+    
     printf("Accion deshecha\n");
     sleep(1);
 
