@@ -44,7 +44,7 @@ Jugador *copiarJugador(Jugador *j)
 
     nuevoJugador->items[nuevoJugador->cantItems] = NULL;
     nuevoJugador->funcionesAnt = j->funcionesAnt;
-    nuevoJugador->funcionesAnteriores = stack_create();
+    nuevoJugador->funcionesAnteriores = j->funcionesAnteriores;
 
     return nuevoJugador;
 }
@@ -143,10 +143,10 @@ void ingresarItem(char *nombre, Map *jugadoresPorNombre)
     printf("Ingrese el item que desea agregar: ");
     char item[30];
 
+    j->funcionesAnt++;
     Jugador *jAnt = copiarJugador(j);
 
     stack_push(j->funcionesAnteriores, jAnt);
-    j->funcionesAnt++;
 
     fflush(stdin);
     fgets(item, 30, stdin);
@@ -160,8 +160,9 @@ void ingresarItem(char *nombre, Map *jugadoresPorNombre)
 
     printf("Item agregado con éxito!\n");
 
-    
     sleep(1);
+    
+    return;
 }
 
 void eliminarItem(char *nombre, Map *jugadoresPorNombre)
@@ -178,25 +179,23 @@ void eliminarItem(char *nombre, Map *jugadoresPorNombre)
     printf("Ingrese el item que desea eliminar: ");
     char item[30];
 
-    Jugador *jAnt = copiarJugador(j);
-
-    stack_push(j->funcionesAnteriores, jAnt);
     j->funcionesAnt++;
+    Jugador *jAnt = copiarJugador(j);
+    stack_push(j->funcionesAnteriores, jAnt);
 
     fflush(stdin);
     fgets(item, 30, stdin);
     item[strcspn(item, "\r\n")] = 0;
 
-    for(int i = 0; i < j->cantItems; i++)
+    for (int i = 0; i < j->cantItems; i++)
     {
         if (strcmp(j->items[i], item) == 0)
         {
-            for (int k = i; i < j->cantItems; k++)
-            {
-                j->items[k] = j->items[k + 1];
-            }
+            for (int k = i; k < j->cantItems; k++)
+                j->items[k] = j->items[k+1];
+            
             j->cantItems--;
-            printf("Item eliminado\n");
+            printf("Item eliminado con éxito!\n");
             
             sleep(1);
             return;
@@ -223,14 +222,17 @@ void agregarPuntos(char *nombre, Map *jugadoresPorNombre)
     printf("Ingrese los puntos que desea agregar: ");
     int puntos;
 
+    j->funcionesAnt++;
     Jugador *jAnt = copiarJugador(j);
     stack_push(j->funcionesAnteriores, jAnt);
-    j->funcionesAnt++;
 
     scanf("%d", &puntos);
     
     j->puntos += puntos;
+
+    sleep(1);
     
+    return;
 }
 
 void buscarItem(char *item, Map *jugadoresPorNombre, int cantJugadores)
@@ -268,6 +270,7 @@ void buscarItem(char *item, Map *jugadoresPorNombre, int cantJugadores)
         cont++;
     }
 
+    sleep(1);
     return;
 
 }
@@ -297,9 +300,8 @@ void deshacer(char *nombre, Map *jugadoresPorNombre)
     j->items = k->items;
     j->puntos = k->puntos;
 
-    j->funcionesAnt--;
-
     printf("Accion deshecha\n");
+    j->funcionesAnt--;
     sleep(1);
 
 }
@@ -386,6 +388,6 @@ int main()
 
     } while (opcion != 0);
     
-
+    free(jugadoresPorNombre);
     return EXIT_SUCCESS;
 }
