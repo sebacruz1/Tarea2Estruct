@@ -115,24 +115,18 @@ void ingresarItem(char *nombre, Map *jugadoresPorNombre)
     printf("Ingrese el item que desea agregar: ");
     char item[30];
 
-    while(1)
-    {
-        fflush(stdin);
-        fgets(item, 30, stdin);
-        item[strcspn(item, "\r\n")] = 0;
+    fflush(stdin);
+    fgets(item, 30, stdin);
+    item[strcspn(item, "\r\n")] = 0;
 
-        if (strlen(item) == 0)
-        {
-            printf("Finalizando ingreso de items...\n");
-            break;
-        }
+    j->cantItems++;
+    j->items = (char**)realloc(j->items, (j->cantItems + 1) * sizeof(char*));
+    j->items[j->cantItems - 1] = (char*)malloc(sizeof(char) * 30);
+    strcpy(j->items[j->cantItems - 1], item);
+    j->items[j->cantItems] = NULL;
 
-        j->items = (char**)realloc(j->items, (j->cantItems + 1) * sizeof(char*));
-        j->items[j->cantItems] = (char*)malloc(sizeof(char) * 30);
-        strcpy(j->items[j->cantItems], item);
-        j->cantItems++;
+    printf("Item agregado con éxito!\n");
 
-    }
     
     sleep(1);
 }
@@ -144,8 +138,10 @@ void eliminarItem(char *nombre, Map *jugadoresPorNombre)
     if(j == NULL)
     {
         printf("No se encontro el jugador\n");
+        sleep(1);
         return;
     }
+
     printf("Ingrese el item que desea eliminar: ");
     char item[30];
 
@@ -155,19 +151,22 @@ void eliminarItem(char *nombre, Map *jugadoresPorNombre)
 
     for(int k = 0 ; k < j->cantItems ; k++)
     {
-        if(strcmp(j->items[k], item) == 0)
+        if (strcmp(j->items[k], item) == 0)
         {
-            free(j->items[k]);
-
-            j->items[k] = NULL;
-
+            for (int i = k; i < j->cantItems; i++)
+            {
+                j->items[i] = j->items[i + 1];
+            }
+            j->cantItems--;
             printf("Item eliminado\n");
             
-            break;
+            sleep(1);
+            return;
         }
-        printf("No se encontro el item\n");
-
     }
+
+    printf("No se encontro el item\n");
+
     sleep(1);
     return;
 
