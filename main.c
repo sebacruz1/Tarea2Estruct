@@ -68,7 +68,7 @@ Jugador *crearJugador()
     }
 
     j->items[i] = NULL; 
-    sleep(2);
+    sleep(1);
     return j;
 } 
 
@@ -88,16 +88,17 @@ void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
 
     for(int k = 0 ; k < j->cantItems ; k++)
     {
-        printf("%s ", j -> items[k]);
+        printf("%s", j->items[k]);
 
-        if(j -> items[k] == NULL)
+        if (j -> items[k + 1] == NULL)
         {
             printf("\n");
             break;
         }
+        else printf(", ");
     }
 
-    sleep(2);
+    sleep(1);
 
 }
 
@@ -133,7 +134,7 @@ void ingresarItem(char *nombre, Map *jugadoresPorNombre)
 
     }
     
-    sleep(2);
+    sleep(1);
 }
 
 void eliminarItem(char *nombre, Map *jugadoresPorNombre)
@@ -164,10 +165,10 @@ void eliminarItem(char *nombre, Map *jugadoresPorNombre)
             
             break;
         }
-        printf("No se encontro el item\n")
+        printf("No se encontro el item\n");
 
     }
-    sleep(2);
+    sleep(1);
     return;
 
 }
