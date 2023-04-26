@@ -13,6 +13,7 @@ typedef struct{
     int cantItems;
     Stack *funcionesAnteriores;
     int funcionesAnt;
+
 } Jugador;
 
 int is_equal_string(void * key1, void * key2) 
@@ -35,7 +36,8 @@ Jugador *copiarJugador(Jugador *j)
     nuevoJugador->cantItems = j->cantItems;
     nuevoJugador->items = (char**)malloc(sizeof(char*) * (nuevoJugador->cantItems + 1));
 
-    for(int i = 0; i < nuevoJugador->cantItems; i++) {
+    for (int i = 0; i < nuevoJugador->cantItems; i++) 
+    {
         nuevoJugador->items[i] = (char*)malloc(sizeof(char) * strlen(j->items[i]) + 1);
         strcpy(nuevoJugador->items[i], j->items[i]);
     }
@@ -112,11 +114,11 @@ void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
     printf("Puntos: %d\n", j->puntos);
     printf("Items:\n");
 
-    for(int k = 0 ; k < j->cantItems ; k++)
+    for (int i = 0; i < j->cantItems; i++)
     {
-        printf("%s", j->items[k]);
+        printf("%s", j->items[i]);
 
-        if (j -> items[k + 1] == NULL)
+        if (j -> items[i + 1] == NULL)
         {
             printf("\n");
             break;
@@ -132,7 +134,7 @@ void ingresarItem(char *nombre, Map *jugadoresPorNombre)
 {
     Jugador *j = searchMap(jugadoresPorNombre, nombre);
 
-    if(j == NULL)
+    if (j == NULL)
     {
         printf("No se encontro el jugador\n");
         return;
@@ -166,7 +168,7 @@ void eliminarItem(char *nombre, Map *jugadoresPorNombre)
 {
     Jugador *j = searchMap(jugadoresPorNombre, nombre);
 
-    if(j == NULL)
+    if (j == NULL)
     {
         printf("No se encontro el jugador\n");
         sleep(1);
@@ -185,13 +187,13 @@ void eliminarItem(char *nombre, Map *jugadoresPorNombre)
     fgets(item, 30, stdin);
     item[strcspn(item, "\r\n")] = 0;
 
-    for(int k = 0 ; k < j->cantItems ; k++)
+    for(int i = 0; i < j->cantItems; i++)
     {
-        if (strcmp(j->items[k], item) == 0)
+        if (strcmp(j->items[i], item) == 0)
         {
-            for (int i = k; i < j->cantItems; i++)
+            for (int k = i; i < j->cantItems; k++)
             {
-                j->items[i] = j->items[i + 1];
+                j->items[k] = j->items[k + 1];
             }
             j->cantItems--;
             printf("Item eliminado\n");
@@ -235,7 +237,7 @@ void deshacer(char *nombre, Map *jugadoresPorNombre)
 {
     Jugador *j = searchMap(jugadoresPorNombre, nombre);
 
-    if(j == NULL)
+    if (j == NULL)
     {
         printf("No se encontro el jugador\n");
         sleep(1);
@@ -257,12 +259,11 @@ void deshacer(char *nombre, Map *jugadoresPorNombre)
     j->puntos = k->puntos;
 
     j->funcionesAnt--;
-    
+
     printf("Accion deshecha\n");
     sleep(1);
 
 }
-
 
 int main()
 {
@@ -331,6 +332,7 @@ int main()
             break;
         default:
             printf("Opcion invalida\n");
+            sleep(1);
             break;
         }
 
