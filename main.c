@@ -3,13 +3,16 @@
 #include <string.h>
 #include <unistd.h>
 #include "Map.h"
-#include "Map.c"
+#include "stack.h"
+#include "list.h"
 
 typedef struct{
     char nombre[20];
     int puntos; 
     char **items;
     int cantItems;
+    Stack *funcionesAnteriores;
+    int funcionesAnt;
 } Jugador;
 
 int is_equal_string(void * key1, void * key2) 
@@ -68,6 +71,8 @@ Jugador *crearJugador()
     }
 
     j->items[i] = NULL; 
+    j->funcionesAnteriores = stack_create();
+    j->funcionesAnt = 0;
     sleep(1);
     return j;
 } 
@@ -115,6 +120,9 @@ void ingresarItem(char *nombre, Map *jugadoresPorNombre)
     printf("Ingrese el item que desea agregar: ");
     char item[30];
 
+    stack_push(j->funcionesAnteriores, j);
+    j->funcionesAnt++;
+
     fflush(stdin);
     fgets(item, 30, stdin);
     item[strcspn(item, "\r\n")] = 0;
@@ -144,6 +152,9 @@ void eliminarItem(char *nombre, Map *jugadoresPorNombre)
 
     printf("Ingrese el item que desea eliminar: ");
     char item[30];
+
+    stack_push(j->funcionesAnteriores, j);
+    j->funcionesAnt++;
 
     fflush(stdin);
     fgets(item, 30, stdin);
@@ -185,11 +196,48 @@ void agregarPuntos(char *nombre, Map *jugadoresPorNombre)
     printf("Ingrese los puntos que desea agregar: ");
     int puntos;
 
+    stack_push(j->funcionesAnteriores, j);
+    j->funcionesAnt++;
+
     scanf("%d", &puntos);
     
     j->puntos += puntos;
     
 }
+
+void deshacer(char *nombre, Map *jugadoresPorNombre)
+{
+    Jugador *j = searchMap(jugadoresPorNombre, nombre);
+
+    if(j == NULL)
+    {
+        printf("No se encontro el jugador\n");
+        sleep(1);
+        return;
+    }
+
+    if (j->funcionesAnt == 0)
+    {
+        printf("No hay acciones para deshacer\n");
+        sleep(1);
+        return;
+    }
+
+    Jugador *k = malloc(sizeof(Jugador));
+    k = stack_pop(j->funcionesAnteriores);
+    
+
+    j->cantItems = k->cantItems;
+    j->funcionesAnt = k->funcionesAnt;
+    j->items = k->items;
+    j->puntos = k->puntos;
+
+
+    printf("Accion deshecha\n");
+    sleep(1);
+
+}
+
 
 int main()
 {
@@ -250,7 +298,12 @@ int main()
             scanf("%s", nombre);
         	agregarPuntos(nombre, jugadoresPorNombre);
         	break;
-        
+
+        case 6:
+            printf("Ingrese el nombre del jugador: ");
+            scanf("%s", nombre);
+            deshacer(nombre, jugadoresPorNombre);
+            break;
         default:
             printf("Opcion invalida\n");
             break;
