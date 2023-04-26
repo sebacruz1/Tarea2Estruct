@@ -233,6 +233,45 @@ void agregarPuntos(char *nombre, Map *jugadoresPorNombre)
     
 }
 
+void buscarItem(char *item, Map *jugadoresPorNombre, int cantJugadores)
+{
+    Jugador *j = firstMap(jugadoresPorNombre);
+
+    int cont = 0;
+
+    while (cont != cantJugadores)
+    {
+        for (int i = 0; i < j->cantItems; i++)
+        {
+            if (strcmp(j->items[i], item) == 0)
+            {
+                printf("Jugador: %s\n", j->nombre);
+                printf("Puntos: %d\n", j->puntos);
+                printf("Items:\n");
+
+                for (int i = 0; i < j->cantItems; i++)
+                {
+                    printf("%s", j->items[i]);
+
+                    if (j -> items[i + 1] == NULL)
+                    {
+                        printf("\n");
+                        break;
+                    }
+                    else printf(", ");
+                }
+                sleep(1);
+            }
+        }
+
+        j = nextMap(jugadoresPorNombre);
+        cont++;
+    }
+
+    return;
+
+}
+
 void deshacer(char *nombre, Map *jugadoresPorNombre)
 {
     Jugador *j = searchMap(jugadoresPorNombre, nombre);
@@ -268,6 +307,7 @@ void deshacer(char *nombre, Map *jugadoresPorNombre)
 int main()
 {
     int opcion = 0; 
+    int contJugadores = 0;
     Jugador* j;  
 
     Map *jugadoresPorNombre = createMap(is_equal_string);
@@ -281,9 +321,10 @@ int main()
         printf("3. Agregar Item A Jugador\n");
         printf("4. Eliminar Item De Jugador\n");
         printf("5. Agregar Puntos De Habilidad A Jugador\n");
-        printf("6. Deshacer Ultima Accion De Jugador\n");
-        printf("7. Exportar Datos De Jugador a archivo .csv\n");
-        printf("8. Importar Datos De Jugador desde archivo .csv\n");
+        printf("6. Mostrar Jugadores Con Item Especifico\n");
+        printf("7. Deshacer Ultima Accion De Jugador\n");
+        printf("8. Exportar Datos De Jugador a archivo .csv\n");
+        printf("9. Importar Datos De Jugador desde archivo .csv\n");
         printf("0. Salir\n");
 
         scanf("%d", &opcion);
@@ -296,6 +337,7 @@ int main()
 
         case 1:
             j = crearJugador();
+            contJugadores++;
             insertMap(jugadoresPorNombre, j->nombre, j);
             insertMap(jugadoresPorNombre, &j->puntos, j);
             insertMap(jugadoresPorNombre, j->items, j);
@@ -324,8 +366,14 @@ int main()
             scanf("%s", nombre);
         	agregarPuntos(nombre, jugadoresPorNombre);
         	break;
-
         case 6:
+            printf("Ingrese el item que desea buscar: ");
+            char item[30];
+            scanf("%s", item);
+            buscarItem(item, jugadoresPorNombre, contJugadores);
+            break;
+
+        case 7:
             printf("Ingrese el nombre del jugador: ");
             scanf("%s", nombre);
             deshacer(nombre, jugadoresPorNombre);
