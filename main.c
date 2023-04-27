@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include "Map.h"
 #include "stack.h"
-#include "list.h"
 
 typedef struct{
     char nombre[20];
@@ -18,13 +17,54 @@ typedef struct{
 
 int is_equal_string(void * key1, void * key2) 
 {
-    if(strcmp((char*)key1, (char*)key2)==0) return 1;
+    if (strcmp((char*)key1, (char*)key2)==0) return 1;
     return 0;
 }
 
 int lower_than_string(void * key1, void * key2) {
-    if(strcmp((char*)key1, (char*)key2) < 0) return 1;
+    if (strcmp((char*)key1, (char*)key2) < 0) return 1;
     return 0;
+}
+
+const char *get_csv_field (char * tmp, int k) 
+{
+    int open_mark = 0;
+    char* ret=(char*) malloc (100*sizeof(char));
+    int ini_i=0, i=0;
+    int j=0;
+    while (tmp[i+1]!='\0'){
+
+        if (tmp[i]== '\"'){
+            open_mark = 1-open_mark;
+            if(open_mark) ini_i = i+1;
+            i++;
+            continue;
+        }
+
+        if (open_mark || tmp[i]!= ','){
+            if(k==j) ret[i-ini_i] = tmp[i];
+            i++;
+            continue;
+        }
+
+        if (tmp[i]== ','){
+            if(k==j) {
+               ret[i-ini_i] = 0;
+               return ret;
+            }
+            j++; ini_i = i+1;
+        }
+
+        i++;
+    }
+
+    if (k==j) {
+       ret[i-ini_i] = 0;
+       return ret;
+    }
+
+
+    return NULL;
 }
 
 Jugador *copiarJugador(Jugador *j)
@@ -71,7 +111,7 @@ Jugador *crearJugador()
     j->items = (char**)malloc(sizeof(char*));
     j->cantItems = 0;
 
-    while(1)
+    while (1)
     {
         fflush(stdin);
         fgets(item, 30, stdin);
