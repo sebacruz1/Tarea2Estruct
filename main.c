@@ -346,6 +346,42 @@ void deshacer(char *nombre, Map *jugadoresPorNombre)
 
 }
 
+void importarJugador(Map *jugadoresPorNombre)
+{
+    char nombreArchivo[30];
+    printf("Ingrese el nombre del archivo .csv: ");
+    scanf("%s", nombreArchivo);
+    strcat(nombreArchivo, ".csv");
+    FILE *fp = fopen(nombreArchivo, "r");
+    
+    char linea[1024];
+
+    while (fgets(linea, 1023, fp) != NULL)
+    {
+        for (int i = 0; i < 9; i++) 
+        {
+        char *aux = get_csv_field(linea, i);
+        switch (i) 
+        {
+            case 0:
+                printf("Nombre: %s\n", aux);
+                break;
+            case 1:
+                printf("Item: %s\n", aux);
+                break;
+            case 2:
+                printf("Puntos: %s\n", aux);
+                break;
+        }
+        free(aux);
+        }
+        printf("\n");
+        sleep(1);
+
+    }
+    fclose(fp);
+}
+
 int main()
 {
     int opcion = 0; 
