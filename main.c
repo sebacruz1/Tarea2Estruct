@@ -399,15 +399,12 @@ void importarJugador()
     int cantJugadores;
     printf("Ingrese el nombre del archivo .csv: ");
     scanf("%s", nombreArchivo);
-    printf("Ingrese cuantos jugadores quiere leer:");
-    scanf("%d", &cantJugadores);
     printf("\n");
     strcat(nombreArchivo, ".csv");
     FILE *fp = fopen(nombreArchivo, "r");
     
     char linea[1024];
 
-    fgets (linea, 1023, fp);
     int k = 0;
     int contItems;
     while (fgets(linea, 1023, fp) != NULL)
@@ -415,34 +412,33 @@ void importarJugador()
     	int i;
         for ( i = 0; i < 3; i++) 
         {
-        const char *aux = get_csv_field(linea, i);
-        switch (i) 
-        {
-            case 0:
-                printf("Nombre: %s\n", aux);
-                break;
-            case 1:
-                printf("Puntos de habilidad: %s\n", aux);
-                break;
-            case 2:
-                printf("Numero de items: %s\n", aux);
-                contItems = (int) strtol(aux, NULL, 10);
-                int j ;
-                for (j = 0 ; j < contItems ; j++)
-                {
-                    const char *item = get_csv_field(linea, (j + 3) );
-                    printf("%s", item);
-                    if(j < (contItems - 1) ) printf(", "); 
-                }
-                printf("\n");
-                break;
-        }
-        //free(aux);
+            const char *aux = get_csv_field(linea, i);
+
+            switch (i) 
+            {
+                case 0:
+                    printf("Nombre: %s\n", aux);
+                    break;
+                case 1:
+                    printf("Puntos de habilidad: %s\n", aux);
+                    break;
+                case 2:
+                    printf("Numero de items: %s\n", aux);
+                    contItems = (int) strtol(aux, NULL, 10);
+                    int j ;
+                    for (j = 0 ; j < contItems ; j++)
+                    {
+                        const char *item = get_csv_field(linea, (j + 3) );
+                        printf("%s", item);
+                        if(j < (contItems - 1) ) printf(", "); 
+                    }
+                    printf("\n");
+                    break;
+            }
+            //free(aux);
         }
         printf("\n");
         sleep(1);
-        k++; if(k==cantJugadores) break;
-
     }
     fclose(fp);
 } 
