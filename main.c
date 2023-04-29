@@ -152,9 +152,10 @@ void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
 
     printf("Nombre: %s\n", j->nombre);
     printf("Puntos: %d\n", j->puntos);
-    printf("Items:\n");
+    printf("Items:%d\n", j->cantItems);
 
-    for (int i = 0; i < j->cantItems; i++)
+	int i;
+    for ( i = 0; i < j->cantItems; i++)
     {
         printf("%s", j->items[i]);
 
