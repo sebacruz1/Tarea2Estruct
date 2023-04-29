@@ -347,46 +347,42 @@ void deshacer(char *nombre, Map *jugadoresPorNombre)
 
 }
 
-void exportarJugador(Map *jugadoresPorNombre, char* nombre)
+void exportarJugador(Map *jugadoresPorNombre, int cantJugadores)
 {
-    Jugador *j = searchMap(jugadoresPorNombre, nombre);
-
-    if(j == NULL)
-    {
-        printf("No se encontro el jugador\n");
-        return;
-    }
+    Jugador *j = firstMap(jugadoresPorNombre);
 
     char nombreArchivo[30];
     printf("Ingrese el nombre del archivo .csv: ");
     scanf("%s", nombreArchivo);
     strcat(nombreArchivo, ".csv");
     FILE *fp = fopen(nombreArchivo, "a");
-
-    fputs(j->nombre, fp);
-    fputs("," , fp);
-
-    char stringPuntos[10];
-    sprintf(stringPuntos, "%d", j->puntos);
-    fputs(stringPuntos, fp);
-    fputs("," , fp);
-
-    char stringCantItems[10];
-    sprintf(stringCantItems, "%d", j->cantItems);
-    fputs(stringCantItems, fp);
-
-    if (j->cantItems == 0)
+    int cont = 0;
+    while (cont != cantJugadores)
     {
-        fputs("/n", fp);
-        return;
-    }
+        fputs(j->nombre, fp);
+        fputs("," , fp);
+
+        char stringPuntos[10];
+        sprintf(stringPuntos, "%d", j->puntos);
+        fputs(stringPuntos, fp);
+        fputs("," , fp);
+
+        char stringCantItems[10];
+        sprintf(stringCantItems, "%d", j->cantItems);
+        fputs(stringCantItems, fp);
 
         int i;
+        
         for ( i = 0; i < j->cantItems; i++)
         {
             fputs("," , fp);
             fputs(j->items[i], fp);
         }
+
+        j = nextMap(jugadoresPorNombre);
+        fputs("\n", fp);
+        cont++;
+    }
 
     fclose(fp);
 
@@ -435,7 +431,6 @@ void importarJugador()
                     printf("\n");
                     break;
             }
-            //free(aux);
         }
         printf("\n");
         sleep(1);
@@ -517,9 +512,7 @@ int main()
             deshacer(nombre, jugadoresPorNombre);
             break;
         case 8:
-            printf("Ingrese el nombre del jugador que quiere exportar: ");
-            scanf("%s", nombre);
-            exportarJugador(jugadoresPorNombre, nombre);
+            exportarJugador(jugadoresPorNombre, contJugadores);
             break;
         case 9:
             importarJugador();
