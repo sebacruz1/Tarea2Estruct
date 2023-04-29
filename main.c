@@ -384,7 +384,7 @@ void exportarJugador(Map *jugadoresPorNombre, char* nombre)
         int i;
         for ( i = 0; i < j->cantItems; i++)
         {
-            ifputs("," , fp);
+            fputs("," , fp);
             fputs(j->items[i], fp);
         }
 
