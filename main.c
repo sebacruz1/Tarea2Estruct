@@ -347,6 +347,52 @@ void deshacer(char *nombre, Map *jugadoresPorNombre)
 
 }
 
+void exportarJugador(Map *jugadoresPorNombre, char* nombre)
+{
+    Jugador *j = searchMap(jugadoresPorNombre, nombre);
+
+    if(j == NULL)
+    {
+        printf("No se encontro el jugador\n");
+        return;
+    }
+
+    char nombreArchivo[30];
+    printf("Ingrese el nombre del archivo .csv: ");
+    scanf("%s", nombreArchivo);
+    strcat(nombreArchivo, ".csv");
+    FILE *fp = fopen(nombreArchivo, "a");
+
+    fputs(j->nombre, fp);
+    fputs("," , fp);
+
+    char stringPuntos[10];
+    sprintf(stringPuntos, "%d", j->puntos);
+    fputs(stringPuntos, fp);
+    fputs("," , fp);
+
+    char stringCantItems[10];
+    sprintf(stringCantItems, "%d", j->cantItems);
+    fputs(stringCantItems, fp);
+
+    if (j->cantItems == 0)
+    {
+        fputs("/n", fp);
+        return;
+    }
+
+        int i;
+        for ( i = 0; i < j->cantItems; i++)
+        {
+            ifputs("," , fp);
+            fputs(j->items[i], fp);
+        }
+
+    fclose(fp);
+
+    return;
+}
+
 void importarJugador()
 {
     char nombreArchivo[30];
@@ -469,14 +515,19 @@ int main()
             scanf("%s", item);
             buscarItem(item, jugadoresPorNombre, contJugadores);
             break;
-
         case 7:
             printf("Ingrese el nombre del jugador: ");
             scanf("%s", nombre);
             deshacer(nombre, jugadoresPorNombre);
             break;
-	case 9:
+        case 8:
+            printf("Ingrese el nombre del jugador que quiere exportar: ");
+            scanf("%s", nombre);
+            exportarJugador(jugadoresPorNombre, nombre);
+            break;
+        case 9:
             importarJugador();
+	    break;
         default:
             printf("Opcion invalida\n");
             sleep(1);
