@@ -152,7 +152,7 @@ void mostrarJugador(char *nombre, Map *jugadoresPorNombre)
 
     printf("Nombre: %s\n", j->nombre);
     printf("Puntos: %d\n", j->puntos);
-    printf("Items:%d\n", j->cantItems);
+    printf("Items:\n");
 
 	int i;
     for ( i = 0; i < j->cantItems; i++)
@@ -372,7 +372,7 @@ void exportarJugador(Map *jugadoresPorNombre, int cantJugadores)
         fputs(stringCantItems, fp);
 
         int i;
-        
+
         for ( i = 0; i < j->cantItems; i++)
         {
             fputs("," , fp);
