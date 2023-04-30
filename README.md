@@ -37,6 +37,8 @@ Integrantes: Daniel Cepeda, Joaquin Fuenzalida, Maximiliano Bustamante Y Sebasti
 
 7. copiarJugador: Esta función recibe un puntero a una estructura Jugador y devuelve un puntero a una estructura Jugador. La función crea una nueva estructura Jugador y copia el contenido de la estructura Jugador original en la nueva estructura. Además, se asegura de que la nueva estructura tenga su propia copia de los elementos del jugador. La función utiliza memoria dinámica para asignar espacio para la nueva estructura y los elementos de la estructura.
 
+8. crearJugador: Esta función se encarga de crear un nuevo jugador. La función pide al usuario que ingrese el nombre del jugador, los puntos de habilidad del jugador y los items
+
 
 
 
