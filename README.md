@@ -33,6 +33,12 @@ Integrantes: Daniel Cepeda, Joaquin Fuenzalida, Maximiliano Bustamante Y Sebasti
 
 5. La funcion lower_than_string: Esta función es una función de comparación que se utiliza en la estructura Map que ordena los elementos de acuerdo a un criterio de menor a mayor. Recibe dos parámetros key1 y key2 que son cadenas de caracteres (char*). Si la cadena key1 es menor que la cadena key2, devuelve 1, de lo contrario, devuelve 0.
 
+6. get_csv_field: Esta función recibe una cadena de caracteres y un número entero y devuelve un puntero a una cadena de caracteres. La función se utiliza para obtener un campo específico de una línea de un archivo CSV. La cadena tmp representa una línea del archivo CSV y k representa el número de campo que se quiere obtener. La función separa la línea en campos utilizando la coma como separador y devuelve el campo que corresponde al número k. La función aloca memoria dinámica para la cadena de caracteres devuelta, por lo que es importante liberar esta memoria después de su uso.
+
+7. copiarJugador: Esta función recibe un puntero a una estructura Jugador y devuelve un puntero a una estructura Jugador. La función crea una nueva estructura Jugador y copia el contenido de la estructura Jugador original en la nueva estructura. Además, se asegura de que la nueva estructura tenga su propia copia de los elementos del jugador. La función utiliza memoria dinámica para asignar espacio para la nueva estructura y los elementos de la estructura.
+
+
+
 
 
 
