@@ -31,3 +31,8 @@ Integrantes: Daniel Cepeda, Joaquin Fuenzalida, Maximiliano Bustamante Y Sebasti
    
    Los aspectos positivos y aspectos a mejorar individuales se lo adjuntaremos via telegram:)
 
+5. La funcion lower_than_string: Esta función es una función de comparación que se utiliza en la estructura Map que ordena los elementos de acuerdo a un criterio de menor a mayor. Recibe dos parámetros key1 y key2 que son cadenas de caracteres (char*). Si la cadena key1 es menor que la cadena key2, devuelve 1, de lo contrario, devuelve 0.
+
+
+
+
